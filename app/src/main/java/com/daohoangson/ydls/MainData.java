@@ -1,9 +1,12 @@
 package com.daohoangson.ydls;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.net.Uri;
+import android.text.TextUtils;
 
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.gms.cast.framework.CastSession;
@@ -11,9 +14,10 @@ import com.google.android.gms.cast.framework.SessionManagerListener;
 import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 
 public class MainData {
-    public ObservableField<String> mediaUrl = new ObservableField<>();
-    public ObservableField<String> ydlsUrl = new ObservableField<>();
     public ObservableBoolean canCast = new ObservableBoolean(false);
+    public ObservableField<String> mediaUrl = new ObservableField<>();
+    public ObservableBoolean mediaUrlFromIntent = new ObservableBoolean(false);
+    public ObservableField<String> ydlsUrl = new ObservableField<>();
 
     private CastContext mCastContext;
     private CastSession mCastSession;
@@ -26,9 +30,36 @@ public class MainData {
         return mCastSession.getRemoteMediaClient();
     }
 
+    void handleTextIntent(Intent intent) {
+        if (intent == null) {
+            return;
+        }
+        if (!Intent.ACTION_SEND.equals(intent.getAction()) || !"text/plain".equals(intent.getType())) {
+            return;
+        }
+
+        String text = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (TextUtils.isEmpty(text)) {
+            return;
+        }
+
+        Uri uri = Uri.parse(text);
+        if (TextUtils.isEmpty(uri.getScheme()) || TextUtils.isEmpty(uri.getHost()) || TextUtils.isEmpty(uri.getPath())) {
+            return;
+        }
+        if (!uri.getScheme().matches("^https?")) {
+            return;
+        }
+
+        mediaUrl.set(text);
+        mediaUrlFromIntent.set(true);
+    }
+
     void onResume(Context context) {
         SharedPreferences sharedPref = getSharedPreferences(context);
-        mediaUrl.set(sharedPref.getString(context.getString(R.string.pref_media_url), ""));
+        if (!mediaUrlFromIntent.get()) {
+            mediaUrl.set(sharedPref.getString(context.getString(R.string.pref_media_url), ""));
+        }
         ydlsUrl.set(sharedPref.getString(context.getString(R.string.pref_ydls_url), ""));
 
         mCastContext.getSessionManager().addSessionManagerListener(mSessionManagerListener, CastSession.class);

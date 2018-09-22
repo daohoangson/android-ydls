@@ -1,5 +1,6 @@
 package com.daohoangson.ydls;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mData.setup(this);
+        mData.handleTextIntent(getIntent());
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setA(mActor);
@@ -32,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
         CastButtonFactory.setUpMediaRouteButton(getApplicationContext(), menu, R.id.media_route_menu_item);
 
         return true;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        mData.handleTextIntent(intent);
     }
 
     @Override
