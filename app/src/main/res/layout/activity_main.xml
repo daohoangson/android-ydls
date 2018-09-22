@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="a"
+            type="com.daohoangson.ydls.MainActor" />
+
+        <variable
+            name="d"
+            type="com.daohoangson.ydls.MainData" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/lblIntro"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/intro"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/containerMediaUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/lblIntro">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/textMediaUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/media_url_hint"
+                android:inputType="textUri"
+                android:text="@={d.mediaUrl}" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnOpenInBrowser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="@{d.mediaUrl.length() > 0}"
+            android:onClick="@{() -> a.openInBrowser(d.mediaUrl)}"
+            android:text="@string/open_in_browser"
+            app:layout_constraintTop_toBottomOf="@id/containerMediaUrl" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/containerYdlsUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/btnOpenInBrowser">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/textYdlsUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/ydls_url_hint"
+                android:inputType="textUri"
+                android:text="@={d.ydlsUrl}" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="@{d.canCast &amp;&amp; d.mediaUrl.length() > 0 &amp;&amp; d.ydlsUrl.length() > 0}"
+            android:onClick="@{() -> a.play(d)}"
+            android:text="@string/cast_play"
+            app:layout_constraintTop_toBottomOf="@id/containerYdlsUrl" />
+
+        <fragment
+            android:id="@+id/castMiniController"
+            class="com.google.android.gms.cast.framework.media.widget.MiniControllerFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

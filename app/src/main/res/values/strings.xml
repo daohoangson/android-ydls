@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">YDLS Demo</string>
+    <string name="cast_app_id_sample">4F8B3483</string>
+    <string name="cast_introduce">Introducing Cast</string>
+    <string name="intro">This app will use YDLS server to transcode the specified URL into an audio-only stream and play it on a Cast-compatible device.</string>
+    <string name="media_route_menu_title">Cast</string>
+    <string name="media_url_hint">https://www.youtube.com/watch?v=xxx</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="pref_file_key">ydls</string>
+    <string name="pref_media_url">media_url</string>
+    <string name="pref_ydls_url">ydls_url</string>
+    <string name="ydls_url_hint">http://ydls.domain.com:8080/</string>
+</resources>
