@@ -14,12 +14,12 @@ import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 public class MainData {
     public ObservableBoolean canCast = new ObservableBoolean(false);
     public ObservableField<String> mediaUrl = new ObservableField<>();
-    public ObservableBoolean mediaUrlFromIntent = new ObservableBoolean(false);
     public OpenGraph openGraph = new OpenGraph(this.mediaUrl);
     public ObservableField<String> ydlsUrl = new ObservableField<>();
 
     private CastSession mCastSession;
     private Context mContext;
+    private boolean mMediaUrlSetFromIntent = false;
 
     MainData(Context context) {
         mContext = context;
@@ -34,7 +34,7 @@ public class MainData {
 
     void lifecycleOnResume() {
         SharedPreferences sharedPref = getSharedPreferences();
-        if (!mediaUrlFromIntent.get()) {
+        if (!mMediaUrlSetFromIntent) {
             mediaUrl.set(sharedPref.getString(mContext.getString(R.string.pref_media_url), ""));
         }
         ydlsUrl.set(sharedPref.getString(mContext.getString(R.string.pref_ydls_url), ""));
@@ -77,7 +77,7 @@ public class MainData {
         }
 
         mediaUrl.set(text);
-        mediaUrlFromIntent.set(true);
+        mMediaUrlSetFromIntent = true;
     }
 
     private SharedPreferences getSharedPreferences() {
