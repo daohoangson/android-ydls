@@ -25,7 +25,7 @@
             android:id="@+id/containerMediaUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginTop="@dimen/text_input_layout_margin_top"
             app:helperText="@{d.openGraph.isLoading ? @string/og_is_loading : (d.openGraph.hasData ? String.format(@string/og_title_x, d.openGraph.title) : @string/og_no_data)}"
             app:helperTextEnabled="@{d.mediaUrl.length() > 0}"
             app:layout_constraintTop_toTopOf="parent">
@@ -39,33 +39,26 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnOpenInBrowser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="@{d.mediaUrl.length() > 0}"
-            android:onClick="@{() -> a.openInBrowser(d.mediaUrl)}"
-            android:text="@string/open_in_browser"
-            app:layout_constraintTop_toBottomOf="@id/containerMediaUrl" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/containerYdlsUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/btnOpenInBrowser">
+            android:layout_marginTop="@dimen/text_input_layout_margin_top"
+            app:layout_constraintTop_toBottomOf="@id/containerMediaUrl"
+            app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/ydls_url_hint"
-                android:inputType="textUri"
+                android:inputType="textPassword"
                 android:text="@={d.ydlsUrl}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPlay"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="@{d.canCast &amp;&amp; d.mediaUrl.length() > 0 &amp;&amp; !d.openGraph.isLoading &amp;&amp; d.ydlsUrl.length() > 0}"
             android:onClick="@{() -> a.play(d)}"
