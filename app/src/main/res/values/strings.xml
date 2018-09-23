@@ -5,10 +5,10 @@
     <string name="intro">This app will use YDLS server to transcode the specified URL into an audio-only stream and allow you to play it on a Cast-compatible device:</string>
     <string name="intro_from_intent">Received URL from another app:</string>
     <string name="media_route_menu_title">Cast</string>
-    <string name="media_url_hint">https://www.youtube.com/watch?v=xxx</string>
+    <string name="media_url_hint">Media URL (https://youtube.com/watch?v=QWERTY)</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="pref_file_key">ydls</string>
     <string name="pref_media_url">media_url</string>
     <string name="pref_ydls_url">ydls_url</string>
-    <string name="ydls_url_hint">http://ydls.domain.com:8080/</string>
+    <string name="ydls_url_hint">YDLS URL (http://ydls.domain.com:8080/)</string>
 </resources>

@@ -55,11 +55,17 @@ public class MainActor {
         }
 
         Uri uri = Uri.parse(url);
-        String pathAndQuery = uri.getPath() + "?" + uri.getQuery();
-        movieMetadata.putString(MediaMetadata.KEY_ARTIST, pathAndQuery);
-        movieMetadata.putString(MediaMetadata.KEY_TITLE, uri.getHost());
-        movieMetadata.addImage(new WebImage(Uri.parse("https://via.placeholder.com/512x512?text=" + pathAndQuery)));
-        movieMetadata.addImage(new WebImage(Uri.parse("https://via.placeholder.com/512x512?text=" + uri.getHost())));
+        if (d.openGraph.hasData.get()) {
+            movieMetadata.putString(MediaMetadata.KEY_ARTIST, uri.getHost());
+            movieMetadata.putString(MediaMetadata.KEY_TITLE, d.openGraph.title.get());
+            movieMetadata.addImage(new WebImage(Uri.parse(d.openGraph.image.get())));
+        } else {
+            String pathAndQuery = uri.getPath() + "?" + uri.getQuery();
+            movieMetadata.putString(MediaMetadata.KEY_ARTIST, pathAndQuery);
+            movieMetadata.putString(MediaMetadata.KEY_TITLE, uri.getHost());
+            movieMetadata.addImage(new WebImage(Uri.parse("https://via.placeholder.com/512x512?text=" + pathAndQuery)));
+            movieMetadata.addImage(new WebImage(Uri.parse("https://via.placeholder.com/512x512?text=" + uri.getHost())));
+        }
 
         return new MediaInfo.Builder(buildOggUrl(d, url))
                 .setContentType("audio/ogg")

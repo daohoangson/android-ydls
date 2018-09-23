@@ -17,6 +17,7 @@ public class MainData {
     public ObservableBoolean canCast = new ObservableBoolean(false);
     public ObservableField<String> mediaUrl = new ObservableField<>();
     public ObservableBoolean mediaUrlFromIntent = new ObservableBoolean(false);
+    public OpenGraph openGraph = new OpenGraph(this.mediaUrl);
     public ObservableField<String> ydlsUrl = new ObservableField<>();
 
     private CastContext mCastContext;
@@ -66,6 +67,8 @@ public class MainData {
     }
 
     void onPause(Context context) {
+        openGraph.cancel();
+
         mCastContext.getSessionManager().removeSessionManagerListener(mSessionManagerListener, CastSession.class);
 
         SharedPreferences sharedPref = getSharedPreferences(context);

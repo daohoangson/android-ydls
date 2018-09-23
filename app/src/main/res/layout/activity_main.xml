@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="a"
             type="com.daohoangson.ydls.MainActor" />
@@ -43,6 +45,24 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <ProgressBar
+            android:id="@+id/loadingOg"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{d.openGraph.isLoading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@id/containerMediaUrl" />
+
+        <TextView
+            android:id="@+id/lblMediaTitle"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{d.openGraph.title}"
+            android:visibility="@{d.openGraph.hasData ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@id/loadingOg" />
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btnOpenInBrowser"
             android:layout_width="wrap_content"
@@ -50,7 +70,8 @@
             android:enabled="@{d.mediaUrl.length() > 0}"
             android:onClick="@{() -> a.openInBrowser(d.mediaUrl)}"
             android:text="@string/open_in_browser"
-            app:layout_constraintTop_toBottomOf="@id/containerMediaUrl" />
+            app:layout_constraintTop_toBottomOf="@id/lblMediaTitle" />
+
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/containerYdlsUrl"
@@ -71,7 +92,7 @@
             android:id="@+id/btnPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="@{d.canCast &amp;&amp; d.mediaUrl.length() > 0 &amp;&amp; d.ydlsUrl.length() > 0}"
+            android:enabled="@{d.canCast &amp;&amp; d.mediaUrl.length() > 0 &amp;&amp; !d.openGraph.isLoading &amp;&amp; d.ydlsUrl.length() > 0}"
             android:onClick="@{() -> a.play(d)}"
             android:text="@string/cast_play"
             app:layout_constraintTop_toBottomOf="@id/containerYdlsUrl" />
