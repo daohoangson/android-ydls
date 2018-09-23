@@ -43,6 +43,7 @@ public class OpenGraph {
         BasicNetwork network = new BasicNetwork(new HurlStack());
         mQueue = new RequestQueue(new NoCache(), network);
         mQueue.start();
+
         // https://github.com/google/volley/issues/51
         HttpURLConnection.setFollowRedirects(true);
 
