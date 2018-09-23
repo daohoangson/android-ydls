@@ -3,6 +3,7 @@ package com.daohoangson.ydls.cast;
 import android.content.Context;
 
 import com.daohoangson.ydls.R;
+import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.framework.CastOptions;
 import com.google.android.gms.cast.framework.OptionsProvider;
 import com.google.android.gms.cast.framework.SessionProvider;
@@ -24,7 +25,7 @@ public class CastOptionsProvider implements OptionsProvider {
 
         return new CastOptions.Builder()
                 .setCastMediaOptions(mediaOptions)
-                .setReceiverApplicationId(context.getString(R.string.cast_app_id_sample))
+                .setReceiverApplicationId(CastMediaControlIntent.DEFAULT_MEDIA_RECEIVER_APPLICATION_ID)
                 .build();
     }
 

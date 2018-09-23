@@ -1,6 +1,4 @@
 <resources>
-    <string name="cast_app_id_sample">4F8B3483</string>
-    <string name="cast_introduce">Introducing Cast</string>
     <string name="intro">This app will use YDLS server to transcode the specified URL into an audio-only stream and allow you to play it on a Cast-compatible device:</string>
     <string name="intro_from_intent">Received URL from another app:</string>
     <string name="media_route_menu_title">Cast</string>
