@@ -2,7 +2,6 @@ package com.daohoangson.ydls.cast;
 
 import android.content.Context;
 
-import com.daohoangson.ydls.R;
 import com.google.android.gms.cast.CastMediaControlIntent;
 import com.google.android.gms.cast.framework.CastOptions;
 import com.google.android.gms.cast.framework.OptionsProvider;

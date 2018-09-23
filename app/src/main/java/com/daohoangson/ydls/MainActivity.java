@@ -1,8 +1,10 @@
 package com.daohoangson.ydls;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -17,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private CastContext mCastContext;
     private SessionManagerListener<CastSession> mSessionManagerListener;
 
-    private MainActor mActor = new MainActor(this);
-    private MainData mData = new MainData(this);
+    private final MainActor mActor = new MainActor(this);
+    private final MainData mData = new MainData(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mData.setCastSession(mCastContext.getSessionManager().getCurrentCastSession());
         mData.setMediaUrlFromIntent(getIntent());
 
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.<ActivityMainBinding>setContentView(this, R.layout.activity_main);
         binding.setA(mActor);
         binding.setD(mData);
     }

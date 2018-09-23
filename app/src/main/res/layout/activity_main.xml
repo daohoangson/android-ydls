@@ -16,28 +16,28 @@
             type="com.daohoangson.ydls.MainData" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/containerMediaUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/media_url_hint"
                 android:inputType="textUri"
                 android:text="@={d.mediaUrl}" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnOpenInBrowser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,22 +56,22 @@
             app:layout_constraintLeft_toRightOf="@id/btnOpenInBrowser"
             app:layout_constraintTop_toTopOf="@id/btnOpenInBrowser" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/containerYdlsUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/btnOpenInBrowser">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/ydls_url_hint"
                 android:inputType="textUri"
                 android:text="@={d.ydlsUrl}" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,5 +88,5 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

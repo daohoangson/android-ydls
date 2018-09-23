@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.daohoangson.ydls">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -38,7 +40,5 @@
             android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
             android:value="com.daohoangson.ydls.cast.CastOptionsProvider" />
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

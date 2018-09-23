@@ -13,7 +13,7 @@ import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 import com.google.android.gms.common.images.WebImage;
 
 public class MainActor {
-    private Context mContext;
+    private final Context mContext;
 
     MainActor(Context context) {
         mContext = context;
