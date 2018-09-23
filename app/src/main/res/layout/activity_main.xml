@@ -26,6 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top"
+            app:helperText="@{d.openGraph.isLoading ? @string/og_is_loading : (d.openGraph.hasData ? String.format(@string/og_title_x, d.openGraph.title) : @string/og_no_data)}"
+            app:helperTextEnabled="@{d.mediaUrl.length() > 0}"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -45,16 +47,6 @@
             android:onClick="@{() -> a.openInBrowser(d.mediaUrl)}"
             android:text="@string/open_in_browser"
             app:layout_constraintTop_toBottomOf="@id/containerMediaUrl" />
-
-        <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="@{d.openGraph.isLoading ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@id/btnOpenInBrowser"
-            app:layout_constraintLeft_toRightOf="@id/btnOpenInBrowser"
-            app:layout_constraintTop_toTopOf="@id/btnOpenInBrowser" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/containerYdlsUrl"
