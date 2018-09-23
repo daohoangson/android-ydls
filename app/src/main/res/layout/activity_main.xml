@@ -16,64 +16,49 @@
             type="com.daohoangson.ydls.MainData" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/containerMediaUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginTop="@dimen/text_input_layout_margin_top"
+            app:helperText="@{d.openGraph.isLoading ? @string/og_is_loading : (d.openGraph.hasData ? String.format(@string/og_title_x, d.openGraph.title) : @string/og_no_data)}"
+            app:helperTextEnabled="@{d.mediaUrl.length() > 0}"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/media_url_hint"
                 android:inputType="textUri"
                 android:text="@={d.mediaUrl}" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnOpenInBrowser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="@{d.mediaUrl.length() > 0}"
-            android:onClick="@{() -> a.openInBrowser(d.mediaUrl)}"
-            android:text="@string/open_in_browser"
-            app:layout_constraintTop_toBottomOf="@id/containerMediaUrl" />
-
-        <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="@{d.openGraph.isLoading ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@id/btnOpenInBrowser"
-            app:layout_constraintLeft_toRightOf="@id/btnOpenInBrowser"
-            app:layout_constraintTop_toTopOf="@id/btnOpenInBrowser" />
-
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/containerYdlsUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/btnOpenInBrowser">
+            android:layout_marginTop="@dimen/text_input_layout_margin_top"
+            app:layout_constraintTop_toBottomOf="@id/containerMediaUrl"
+            app:passwordToggleEnabled="true">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/ydls_url_hint"
-                android:inputType="textUri"
+                android:inputType="textPassword"
                 android:text="@={d.ydlsUrl}" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPlay"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="@{d.canCast &amp;&amp; d.mediaUrl.length() > 0 &amp;&amp; !d.openGraph.isLoading &amp;&amp; d.ydlsUrl.length() > 0}"
             android:onClick="@{() -> a.play(d)}"
@@ -88,5 +73,5 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

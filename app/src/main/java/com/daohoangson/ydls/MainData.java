@@ -3,8 +3,10 @@ package com.daohoangson.ydls;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+
 import android.net.Uri;
 import android.text.TextUtils;
 
@@ -12,13 +14,13 @@ import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 
 public class MainData {
-    public ObservableBoolean canCast = new ObservableBoolean(false);
-    public ObservableField<String> mediaUrl = new ObservableField<>();
-    public OpenGraph openGraph = new OpenGraph(this.mediaUrl);
-    public ObservableField<String> ydlsUrl = new ObservableField<>();
+    public final ObservableBoolean canCast = new ObservableBoolean(false);
+    public final ObservableField<String> mediaUrl = new ObservableField<>();
+    public final OpenGraph openGraph = new OpenGraph(this.mediaUrl);
+    public final ObservableField<String> ydlsUrl = new ObservableField<>();
 
     private CastSession mCastSession;
-    private Context mContext;
+    private final Context mContext;
     private boolean mMediaUrlSetFromIntent = false;
 
     MainData(Context context) {

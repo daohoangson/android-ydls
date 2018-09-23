@@ -1,8 +1,9 @@
 package com.daohoangson.ydls;
 
-import android.databinding.Observable;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
+import androidx.databinding.Observable;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -27,15 +28,15 @@ import java.util.Map;
 public class OpenGraph {
     private static final String TAG = "OpenGraph";
 
-    public ObservableBoolean hasData = new ObservableBoolean(false);
-    public ObservableBoolean isLoading = new ObservableBoolean(false);
-    public ObservableField<String> image = new ObservableField<>();
-    public ObservableField<String> title = new ObservableField<>();
+    public final ObservableBoolean hasData = new ObservableBoolean(false);
+    public final ObservableBoolean isLoading = new ObservableBoolean(false);
+    public final ObservableField<String> image = new ObservableField<>();
+    public final ObservableField<String> title = new ObservableField<>();
 
     private String mCurrentMediaUrl;
-    private Handler mHandler;
-    private RequestQueue mQueue;
-    private ObservableField<String> mSourceMediaUrl;
+    private final Handler mHandler;
+    private final RequestQueue mQueue;
+    private final ObservableField<String> mSourceMediaUrl;
 
     OpenGraph(final ObservableField<String> sourceMediaUrl) {
         mHandler = new Handler(Looper.getMainLooper());
