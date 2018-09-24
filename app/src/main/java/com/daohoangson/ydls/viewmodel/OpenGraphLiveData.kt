@@ -147,7 +147,7 @@ class OpenGraphLiveData internal constructor(application: Application, private v
             entry.allResponseHeaders = response.allHeaders
 
             val now = System.currentTimeMillis()
-            entry.softTtl = now + 600000;
+            entry.softTtl = now + 600000
             entry.ttl = entry.softTtl
             entry.serverDate = now
             entry.lastModified = now
