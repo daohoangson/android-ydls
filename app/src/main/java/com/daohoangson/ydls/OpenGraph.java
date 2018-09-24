@@ -6,6 +6,7 @@ import androidx.databinding.Observable;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -14,10 +15,8 @@ import android.widget.ImageView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.NoCache;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
@@ -42,12 +41,10 @@ public class OpenGraph {
     private final RequestQueue mQueue;
     private final ObservableField<String> mSourceMediaUrl;
 
-    OpenGraph(final ObservableField<String> sourceMediaUrl) {
+    OpenGraph(Context context, final ObservableField<String> sourceMediaUrl) {
         mHandler = new Handler(Looper.getMainLooper());
 
-        BasicNetwork network = new BasicNetwork(new HurlStack());
-        mQueue = new RequestQueue(new NoCache(), network);
-        mQueue.start();
+        mQueue = Volley.newRequestQueue(context.getApplicationContext());
 
         // https://github.com/google/volley/issues/51
         HttpURLConnection.setFollowRedirects(true);

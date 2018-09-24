@@ -19,8 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private CastContext mCastContext;
     private SessionManagerListener<CastSession> mSessionManagerListener;
 
-    private final MainActor mActor = new MainActor(this);
-    private final MainData mData = new MainData(this);
+    private MainData mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +28,12 @@ public class MainActivity extends AppCompatActivity {
         setupCastListener();
         mCastContext = CastContext.getSharedInstance(this);
 
+        mData = new MainData(this);
         mData.setCastSession(mCastContext.getSessionManager().getCurrentCastSession());
         mData.setMediaUrlFromIntent(getIntent());
 
-        ActivityMainBinding binding = DataBindingUtil.<ActivityMainBinding>setContentView(this, R.layout.activity_main);
-        binding.setA(mActor);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setA(new MainActor(this));
         binding.setD(mData);
     }
 

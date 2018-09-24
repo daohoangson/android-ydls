@@ -16,7 +16,7 @@ import com.google.android.gms.cast.framework.media.RemoteMediaClient;
 public class MainData {
     public final ObservableBoolean canCast = new ObservableBoolean(false);
     public final ObservableField<String> mediaUrl = new ObservableField<>();
-    public final OpenGraph openGraph = new OpenGraph(this.mediaUrl);
+    public final OpenGraph openGraph;
     public final ObservableField<String> ydlsUrl = new ObservableField<>();
 
     private CastSession mCastSession;
@@ -24,6 +24,7 @@ public class MainData {
     private boolean mMediaUrlSetFromIntent = false;
 
     MainData(Context context) {
+        openGraph = new OpenGraph(context, this.mediaUrl);
         mContext = context;
     }
 
