@@ -4,17 +4,10 @@ import android.app.Application
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
-import android.widget.ImageView
 import android.widget.TextView
 
-import com.android.volley.NetworkResponse
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.Response
 import com.android.volley.toolbox.HttpHeaderParser
-import com.android.volley.toolbox.Volley
 import com.daohoangson.ydls.R
-import com.squareup.picasso.Picasso
 
 import org.jsoup.Jsoup
 
@@ -25,11 +18,14 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.android.volley.*
+import com.android.volley.toolbox.NetworkImageView
+import com.daohoangson.ydls.Volley
 
 class OpenGraphLiveData internal constructor(application: Application, private val mSourceMediaUrl: LiveData<String>) : LiveData<OpenGraphLiveData.Data>(), Observer<String> {
 
     private val mHandler: Handler = Handler(Looper.getMainLooper())
-    private val mQueue: RequestQueue = Volley.newRequestQueue(application.applicationContext)
+    private val mQueue: RequestQueue = Volley.getInstance(application.applicationContext).requestQueue
 
     init {
         // https://github.com/google/volley/issues/51
@@ -138,7 +134,25 @@ class OpenGraphLiveData internal constructor(application: Application, private v
                 }
             }
 
-            return Response.success(d, HttpHeaderParser.parseCacheHeaders(response))
+            return Response.success(d, HttpHeaderParser.parseCacheHeaders(response)
+                    ?: buildDefaultCacheEntry(response))
+        }
+
+        private fun buildDefaultCacheEntry(response: NetworkResponse): Cache.Entry {
+            val entry = Cache.Entry()
+
+            entry.data = response.data
+            entry.etag = url
+            entry.responseHeaders = response.headers
+            entry.allResponseHeaders = response.allHeaders
+
+            val now = System.currentTimeMillis()
+            entry.softTtl = now + 600000;
+            entry.ttl = entry.softTtl
+            entry.serverDate = now
+            entry.lastModified = now
+
+            return entry
         }
     }
 
@@ -147,15 +161,13 @@ class OpenGraphLiveData internal constructor(application: Application, private v
 
         @BindingAdapter("ogImageUrl")
         @JvmStatic
-        fun setOpenGraphDataImageUrl(v: ImageView, d: OpenGraphLiveData.Data) {
-            if (TextUtils.isEmpty(d.imageUrl)) {
+        fun setOpenGraphDataImageUrl(v: NetworkImageView, d: OpenGraphLiveData.Data) {
+            if (!d.hasData || TextUtils.isEmpty(d.imageUrl)) {
                 v.setImageDrawable(ContextCompat.getDrawable(v.context, R.drawable.og_image_default))
                 return
             }
 
-            Picasso.get().load(d.imageUrl)
-                    .placeholder(R.drawable.og_image_default)
-                    .into(v)
+            v.setImageUrl(d.imageUrl, Volley.getInstance(v.context).imageLoader)
         }
 
         @BindingAdapter("ogTitle")
