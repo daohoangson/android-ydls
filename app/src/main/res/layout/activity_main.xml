@@ -69,12 +69,25 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnPaste"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:onClick="@{viewmodel::paste}"
+            android:singleLine="true"
+            android:text="@{String.format(@string/paste_url_x, viewmodel.clipboardUrl)}"
+            android:visibility="@{viewmodel.clipboardUrl.length() > 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@id/containerMediaUrl"
+            tools:text="@string/paste_url_x"
+            tools:visibility="visible" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/containerYdlsUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_input_layout_margin_top"
-            app:layout_constraintTop_toBottomOf="@id/containerMediaUrl"
+            app:layout_constraintTop_toBottomOf="@id/btnPaste"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText

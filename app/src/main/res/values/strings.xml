@@ -2,6 +2,7 @@
     <string name="media_route_menu_title">Cast</string>
     <string name="media_url_hint">Media URL (https://youtu.be/ABC123)</string>
     <string name="og_image_description">Extracted image from media URL</string>
+    <string name="paste_url_x">Use \"%s\" as media URL</string>
     <string name="pref_file_key">ydls</string>
     <string name="pref_media_url">media_url</string>
     <string name="pref_ydls_url">ydls_url</string>

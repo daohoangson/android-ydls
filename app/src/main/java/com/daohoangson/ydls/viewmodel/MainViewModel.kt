@@ -5,7 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
 import android.view.View
-
+import androidx.annotation.NonNull
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.daohoangson.ydls.R
 import com.daohoangson.ydls.cast.ExpandedControlsActivity
 import com.google.android.gms.cast.MediaInfo
@@ -14,17 +18,11 @@ import com.google.android.gms.cast.MediaMetadata
 import com.google.android.gms.cast.framework.CastSession
 import com.google.android.gms.cast.framework.media.RemoteMediaClient
 import com.google.android.gms.common.images.WebImage
-
 import java.lang.ref.WeakReference
-
-import androidx.annotation.NonNull
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 
 class MainViewModel(@NonNull application: Application) : AndroidViewModel(application) {
 
+    val clipboardUrl: ClipboardUrlLiveData
     val mediaUrl: MutableLiveData<String>
     val ydlsUrl: MutableLiveData<String>
     val og: OpenGraphLiveData
@@ -43,12 +41,24 @@ class MainViewModel(@NonNull application: Application) : AndroidViewModel(applic
 
         mCanCast.value = false
 
+        clipboardUrl = ClipboardUrlLiveData(application, mediaUrl)
         og = OpenGraphLiveData(application, mediaUrl)
         ogIsLoading = Transformations.map<OpenGraphLiveData.Data, Boolean>(og) { d -> d.isLoading }
     }
 
     fun canCast(): LiveData<Boolean> {
         return mCanCast
+    }
+
+    fun paste(v: View?) {
+        if (v == null) {
+            throw RuntimeException("View is missing")
+        }
+
+        val url = clipboardUrl.value
+        url ?: throw RuntimeException("There is no clipboard URL")
+
+        mediaUrl.value = url
     }
 
     fun play(v: View?) {

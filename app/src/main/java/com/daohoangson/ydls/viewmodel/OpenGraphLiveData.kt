@@ -79,7 +79,7 @@ class OpenGraphLiveData internal constructor(application: Application, private v
 
         val loadingData = Data(url)
         loadingData.isLoading = true
-        postValue(loadingData)
+        value = loadingData
 
         val req = OgRequest(url)
         mQueue.add(req.setTag(TAG))
@@ -95,7 +95,7 @@ class OpenGraphLiveData internal constructor(application: Application, private v
     internal inner class OgRequest(url: String) : Request<Data>(Request.Method.GET, url, Response.ErrorListener { postValue(Data(url)) }) {
 
         override fun deliverResponse(d: Data) {
-            postValue(d)
+            value = d
         }
 
         override fun getHeaders(): Map<String, String> {
