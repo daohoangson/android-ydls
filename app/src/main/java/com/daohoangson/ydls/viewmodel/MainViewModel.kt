@@ -96,9 +96,8 @@ class MainViewModel(@NonNull application: Application) : AndroidViewModel(applic
         if (TextUtils.isEmpty(uri.scheme) || TextUtils.isEmpty(uri.host) || TextUtils.isEmpty(uri.path)) {
             return
         }
-        if (uri.scheme!!.matches("^https?".toRegex())) {
-            return
-        }
+
+        uri.scheme?.matches("^https?".toRegex()) ?: return
 
         mediaUrl.value = text
     }
