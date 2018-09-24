@@ -1,9 +1,7 @@
 <resources>
     <string name="media_route_menu_title">Cast</string>
     <string name="media_url_hint">Media URL (https://youtu.be/ABC123)</string>
-    <string name="og_is_loading">😳 Checking url…</string>
-    <string name="og_no_data">😭 Please enter an url from a supported service.</string>
-    <string name="og_title_x">👍 %s</string>
+    <string name="og_image_description">Extracted image from media URL</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="pref_file_key">ydls</string>
     <string name="pref_media_url">media_url</string>

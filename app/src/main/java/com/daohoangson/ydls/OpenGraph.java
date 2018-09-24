@@ -1,5 +1,7 @@
 package com.daohoangson.ydls;
 
+import androidx.core.content.ContextCompat;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.Observable;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
@@ -7,6 +9,7 @@ import androidx.databinding.ObservableField;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.widget.ImageView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -15,6 +18,7 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.NoCache;
 import com.android.volley.toolbox.StringRequest;
+import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -91,9 +95,6 @@ public class OpenGraph {
         isLoading.set(true);
         mCurrentMediaUrl = url;
 
-        image.set("");
-        title.set("");
-
         StringRequest req = new StringRequest(
                 url,
                 new Response.Listener<String>() {
@@ -164,6 +165,22 @@ public class OpenGraph {
         if (hasData) {
             this.image.set(image);
             this.title.set(title);
+        } else {
+            this.image.set("");
+            this.title.set("");
         }
+    }
+
+    @BindingAdapter({"bind:imageUrl"})
+    public static void loadImage(ImageView view, String imageUrl) {
+        if (TextUtils.isEmpty(imageUrl)) {
+            view.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.og_image_default));
+            return;
+        }
+
+        Picasso.get()
+                .load(imageUrl)
+                .placeholder(R.drawable.og_image_default)
+                .into(view);
     }
 }
