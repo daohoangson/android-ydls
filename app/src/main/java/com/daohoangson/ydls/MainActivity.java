@@ -1,25 +1,27 @@
 package com.daohoangson.ydls;
 
 import android.content.Intent;
-
-import androidx.databinding.DataBindingUtil;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.Menu;
 
 import com.daohoangson.ydls.databinding.ActivityMainBinding;
+import com.daohoangson.ydls.viewmodel.MainViewModel;
 import com.google.android.gms.cast.framework.CastButtonFactory;
 import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.SessionManagerListener;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 public class MainActivity extends AppCompatActivity {
 
     private CastContext mCastContext;
     private SessionManagerListener<CastSession> mSessionManagerListener;
 
-    private MainData mData;
+    private MainViewModel viewmodel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +30,21 @@ public class MainActivity extends AppCompatActivity {
         setupCastListener();
         mCastContext = CastContext.getSharedInstance(this);
 
-        mData = new MainData(this);
-        mData.setCastSession(mCastContext.getSessionManager().getCurrentCastSession());
-        mData.setMediaUrlFromIntent(getIntent());
+        viewmodel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewmodel.setMediaUrlFromIntent(getIntent());
+        viewmodel.setCastSession(mCastContext.getSessionManager().getCurrentCastSession());
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.setA(new MainActor(this));
-        binding.setD(mData);
+        binding.setViewmodel(viewmodel);
+        binding.setLifecycleOwner(this);
+
+        viewmodel.getActionStartActivity().observe(this, new Observer<Class>() {
+            @Override
+            public void onChanged(Class aClass) {
+                Intent intent = new Intent(MainActivity.this, aClass);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -51,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        mData.setMediaUrlFromIntent(intent);
+        viewmodel.setMediaUrlFromIntent(intent);
     }
 
     @Override
@@ -59,15 +69,11 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         mCastContext.getSessionManager().removeSessionManagerListener(mSessionManagerListener, CastSession.class);
-
-        mData.lifecycleOnPause();
     }
 
     @Override
     protected void onResume() {
         mCastContext.getSessionManager().addSessionManagerListener(mSessionManagerListener, CastSession.class);
-
-        mData.lifecycleOnResume();
 
         super.onResume();
     }
@@ -117,11 +123,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             private void onApplicationConnected(CastSession session) {
-                mData.setCastSession(session);
+                viewmodel.setCastSession(session);
             }
 
             private void onApplicationDisconnected() {
-                mData.setCastSession(null);
+                viewmodel.setCastSession(null);
             }
         };
     }

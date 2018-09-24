@@ -8,12 +8,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="a"
-            type="com.daohoangson.ydls.MainActor" />
-
-        <variable
-            name="d"
-            type="com.daohoangson.ydls.MainData" />
+            name="viewmodel"
+            type="com.daohoangson.ydls.viewmodel.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,11 +23,12 @@
             android:layout_height="0dp"
             android:contentDescription="@string/og_image_description"
             android:scaleType="centerCrop"
-            app:imageUrl="@{d.openGraph.image}"
             app:layout_constraintDimensionRatio="H,16:9"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:ogImageUrl="@{viewmodel.og}"
+            tools:src="@drawable/og_image_default" />
 
         <TextView
             android:layout_width="match_parent"
@@ -41,16 +38,16 @@
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="5"
-            android:text="@{d.openGraph.title}"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/og_title"
             app:layout_constraintBottom_toBottomOf="@id/image"
+            app:ogTitle="@{viewmodel.og}"
             tools:text="Open Graph title" />
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{d.openGraph.isLoading ? View.VISIBLE : View.GONE}"
+            android:visibility="@{safeUnbox(viewmodel.ogIsLoading) ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/image"
             app:layout_constraintLeft_toLeftOf="@id/image"
             app:layout_constraintRight_toRightOf="@id/image"
@@ -68,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/media_url_hint"
                 android:inputType="textUri"
-                android:text="@={d.mediaUrl}" />
+                android:text="@={viewmodel.mediaUrl}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/ydls_url_hint"
                 android:inputType="textPassword"
-                android:text="@={d.ydlsUrl}" />
+                android:text="@={viewmodel.ydlsUrl}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,8 +90,8 @@
             android:id="@+id/btnPlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="@{d.canCast &amp;&amp; d.mediaUrl.length() > 0 &amp;&amp; !d.openGraph.isLoading &amp;&amp; d.ydlsUrl.length() > 0}"
-            android:onClick="@{() -> a.play(d)}"
+            android:enabled="@{safeUnbox(viewmodel.canCast()) &amp;&amp; viewmodel.mediaUrl.length() > 0 &amp;&amp; !safeUnbox(viewmodel.ogIsLoading) &amp;&amp; viewmodel.ydlsUrl.length() > 0}"
+            android:onClick="@{viewmodel::play}"
             android:text="@string/cast_play"
             app:layout_constraintTop_toBottomOf="@id/containerYdlsUrl" />
 
