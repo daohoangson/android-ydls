@@ -23,15 +23,15 @@
             android:layout_height="0dp"
             android:contentDescription="@string/og_image_description"
             android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="H,16:9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="W,1:1"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:ogImageUrl="@{viewmodel.og}"
             tools:src="@drawable/og_image_default" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/og_title_margin"
             android:shadowColor="@color/og_title_shadow"
@@ -40,7 +40,9 @@
             android:shadowRadius="5"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/og_title"
-            app:layout_constraintBottom_toBottomOf="@id/image"
+            app:layout_constraintLeft_toLeftOf="@id/image"
+            app:layout_constraintRight_toRightOf="@id/image"
+            app:layout_constraintTop_toTopOf="@id/image"
             app:ogTitle="@{viewmodel.og}"
             tools:text="Open Graph title" />
 
@@ -55,10 +57,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/containerMediaUrl"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_input_layout_margin_top"
-            app:layout_constraintTop_toBottomOf="@id/image">
+            app:layout_constraintLeft_toRightOf="@id/image"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -71,9 +75,11 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/containerYdlsUrl"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_input_layout_margin_top"
+            app:layout_constraintLeft_toRightOf="@id/image"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/containerMediaUrl"
             app:passwordToggleEnabled="true">
 
@@ -88,11 +94,13 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPlay"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:enabled="@{safeUnbox(viewmodel.canCast()) &amp;&amp; viewmodel.mediaUrl.length() > 0 &amp;&amp; !safeUnbox(viewmodel.ogIsLoading) &amp;&amp; viewmodel.ydlsUrl.length() > 0}"
             android:onClick="@{viewmodel::play}"
             android:text="@string/cast_play"
+            app:layout_constraintLeft_toRightOf="@id/image"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/containerYdlsUrl" />
 
         <fragment
