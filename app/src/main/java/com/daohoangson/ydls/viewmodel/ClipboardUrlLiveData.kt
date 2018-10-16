@@ -21,7 +21,7 @@ class ClipboardUrlLiveData internal constructor(application: Application, privat
         val clipItem = clipboard?.primaryClip?.getItemAt(0)
         clipItem ?: return
 
-        val text = clipItem.text.toString()
+        val text = clipItem.text?.toString()
         if (TextUtils.isEmpty(text) || !URLUtil.isValidUrl(text) || text == mMediaUrl.value) {
             return
         }
