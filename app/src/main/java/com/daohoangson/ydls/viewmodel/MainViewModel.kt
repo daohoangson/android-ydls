@@ -63,13 +63,10 @@ class MainViewModel(@NonNull application: Application) : AndroidViewModel(applic
 
     fun play(v: View?) {
         if (v == null) {
-            throw RuntimeException("View is missing")
+            return
         }
-
-        val castSession = mCastSession!!.get() ?: throw RuntimeException("There is no cast session")
-
-        val remoteMediaClient = castSession.remoteMediaClient
-                ?: throw RuntimeException("There is no remote media client")
+        val castSession = mCastSession!!.get() ?: return
+        val remoteMediaClient = castSession.remoteMediaClient ?: return
 
         remoteMediaClient.registerCallback(object : RemoteMediaClient.Callback() {
             override fun onStatusUpdated() {
